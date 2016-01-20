@@ -1,0 +1,28 @@
+For these parameters:
+
+T2P =  -3.21012003479
+for dt = 0.0001 ->  -32101.2003479
+
+Therefore we can safely samples using 10,000 points again. Nice.
+
+So..to run on BC3: 
+
+	> single parameter set vs nosie (pID=0? nsamples = 100,1000,10000)
+	> single parameter set vs nsamples (pID=0 noise=10,20,50)
+
+	for both of the above, compare results to mean interaction strength during simulation (this must be saved in the results)
+
+
+	> ensemble of parameter sets vs noise (nsamples = 100,1000,10000)
+	> ensemble of parameter sets vs nsamples (noise = 10,20,50)
+	
+	for these cases must calculate relative error from mean interaction strength
+
+
+N.B. change noise intensity workings!
+
+
+And...
+
+	Range sampling:
+		> example of this for single linear and single HII run. With and without noise...perhaps enough... 

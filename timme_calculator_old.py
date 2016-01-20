@@ -7,23 +7,7 @@
 ## NEED TO ADD PARAMETER COMPARISON TO THIS? - OR USE SEPARATE ANAYLSIS SCRIPTS
 
 ## method calculate() returns row array with elements :
-#0: a0  (intrinsic growth) = A
-#1: J00  = A
-#2: J01  = B
-#3: a1   = -1
-#4: J10  = C
-#5: J11  = 0
-#6: bin_min_prey
-#7: bin_min_pred
-#8: bin_max_prey
-#9: bin_max_pred
-#10: bin_centre_prey
-#11: bin_centre_pred
-#12: bin_mean_prey
-#13: bin_mean_pred
-#14: bin_var_prey
-#15: bin_var_pred
-#16: num_points_in_bin   i.e single bin-> number of points for inference.
+## 6xJhat_entries (a0, J00, J01, a1, J10, J11), bin_min, bin_max, bin_centre, bin_mean, num_points_in_bin
 
 ## also interested in estimated biomass flows??
 
@@ -104,8 +88,8 @@ class timme_calculator():
             stats[0,1] = np.min(self.binned_data[i][2,:])
             stats[0,2] = np.max(self.binned_data[i][1,:])
             stats[0,3] = np.max(self.binned_data[i][2,:])
-            stats[0,4] = (stats[0,1]+stats[0,3])/2.0
-            stats[0,5] = (stats[0,2]+stats[0,4])/2.0
+            stats[0,4] = (stats[0,1]+stats[0,2])/2.0
+            stats[0,5] = (stats[0,3]+stats[0,4])/2.0
             stats[0,6] = np.mean(self.binned_data[i][1,:])
             stats[0,7] = np.mean(self.binned_data[i][2,:])
             stats[0,8] = np.var(self.binned_data[i][1,:])
@@ -120,6 +104,7 @@ class timme_calculator():
         
     def calculate(self):
         self.interpolate()
+	#print(self.interpolated)
         self.binning()
         stats = self.bin_stats()
         #jHat = self.jHat(self.interpolated, self.n_samples - 1)
@@ -129,11 +114,11 @@ class timme_calculator():
         
         for b in range(self.n_bins):
             
-            jHat,err = self.jHat(self.binned_data[b], stats[b][0,-1])
+            jHat = self.jHat(self.binned_data[b], stats[b][0,-1])
             results = np.append(np.append(results, jHat), stats[b])
         
         #print(results)
-        return results, err
+        return results
     
     def jHat(self, binned_data, M):
     # calculates the estimated interaction matrix
@@ -154,13 +139,9 @@ class timme_calculator():
         J1 =np.dot( np.dot(X1, np.transpose(G1)), np.linalg.inv (np.dot(G1, np.transpose(G1))))
         
         J = np.asarray([J0,J1])
-	
-	# evaluate error function:
-	err = (np.sum(np.abs(X0 - np.dot(J0,G0))), np.sum(np.abs(X1 - np.dot(J1,G1))))
-
         #print("shape of J = ")
         #print(np.shape(J))
-        return (J, err)
+        return J
     
         #print(J0)
         #print(J1)
@@ -176,8 +157,7 @@ if __name__=='__main__':
     S = sampler(100, 'example_run.dynamics', 'example_prey.extinctions', 'example_pred.extinctions')
     S.sample()
 
-    calc = timme_calculator(S, 1)
-    result = calc.calculate()
-    print(result)
+    calc = timme_calculator(S, 2)
+    calc.calculate()
     #calc.binning(np.asarray([[1,2,3,4,5,6,7,8, 9],[1, 7, 5, 3, 4, 6, 2, 8, 9], [1, 7, 5, 3, 4, 6, 2, 8, 9]]))  # testing
     #calc.bin_stats()
