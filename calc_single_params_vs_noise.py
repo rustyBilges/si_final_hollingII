@@ -14,19 +14,19 @@ import os, sys
 ##configure:
 PARAMETER_FILE = './parameter_log.txt' #'/home/rusty/Documents/phd files/write_along/second_year/functional_response_paper/final_code_version/linearFR/test/src/parameter_log.txt'
 
-REPEATS_PER_PARAMETER_SET = 2 #1000
+REPEATS_PER_PARAMETER_SET = 1000
 DT = 0.0001
-NUMBER_OF_SAMPLES = 1000 #10000
+NUMBER_OF_SAMPLES = 10000
 
-p = 0 #87  ## pID
-printout = True #False
+p = 87  ## pID
+printout = False
 plot_dynamics = False
 ##################################
 
 start_sim = datetime.now()
 parameters = np.genfromtxt(PARAMETER_FILE, delimiter=',')
 
-noise = range(10)  # CHANGE! 
+noise = range(100)  
 
 RESULTS = np.zeros((len(noise), 1 + (6 + 2 + 4)*2))  ## as below. *2 for mean and variance over repeats.
 RESULTS[:,0] = noise
@@ -42,7 +42,7 @@ for ni in noise:
         a = parameters[p,1]
         b = parameters[p,2]
         c = parameters[p,3]
-        d = parameters[p,3]
+        d = parameters[p,4]
         
         x00 = parameters[p,14]
         x10 = parameters[p,15]

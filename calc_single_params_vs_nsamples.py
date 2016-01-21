@@ -16,9 +16,9 @@ import os, sys
 ##configure:
 PARAMETER_FILE = './parameter_log.txt' #'/home/rusty/Documents/phd files/write_along/second_year/functional_response_paper/final_code_version/linearFR/test/src/parameter_log.txt'
 
-REPEATS_PER_PARAMETER_SET = 10
+REPEATS_PER_PARAMETER_SET = 1000
 DT = 0.0001
-noise = 20
+noise = 10
 
 p = 0  ## pID
 printout = False
@@ -33,19 +33,19 @@ parameters = np.genfromtxt(PARAMETER_FILE, delimiter=',')
 #samples = range(50,5050,50)
 #samples = np.logspace(2,15,num=14,base=2)
 #samples = samples.astype(int)  
-samples = [10, 20, 50, 100, 1000, 10000] #, 50000]
+#samples = [10, 20, 50, 100, 1000, 10000] #, 50000]
 
-#samples = range(4,100)
-#samples.append(200)
-#samples.append(300)
-#samples.append(400)
-#samples.append(500)
-#samples.append(600)
-#samples.append(700)
-#samples.append(800)
-#samples.append(900)
-#samples.append(1000)
-#samples.append(10000)
+samples = range(4,100)
+samples.append(200)
+samples.append(300)
+samples.append(400)
+samples.append(500)
+samples.append(600)
+samples.append(700)
+samples.append(800)
+samples.append(900)
+samples.append(1000)
+samples.append(10000)
 
 RESULTS = np.zeros((len(samples), 1 + (6 + 2 + 4)*2))  ## as below. *2 for mean and variance over repeats.
 RESULTS[:,0] = samples

@@ -9,8 +9,9 @@ import random as rnd
 
 class hollingII_simulator_parameter_tester():
     
-    def __init__(self, a, b, c, d, x00, x10, x0s, x1s, plot=False):
+    def __init__(self, a, b, c, d, x00, x10, x0s, x1s, plot=False, N2PS):
         
+	self.N2PS = N2PS
         self.tsteps = 100000
         self.dt = 0.001
         
@@ -115,7 +116,7 @@ class hollingII_simulator_parameter_tester():
         
         self.theta += math.acos( (a**2 + b**2 - c**2) /(2.0*a*b) )
         
-        if self.theta < 4*np.pi:
+        if self.theta < 4*np.pi*self.N2PS:
             return False
         else:
             return True
